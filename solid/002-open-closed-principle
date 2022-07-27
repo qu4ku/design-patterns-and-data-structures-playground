@@ -1,0 +1,59 @@
+"""Open-Closed Principle
+Software entities should be open for extension but closed for modification.
+"""
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    def __repr__(self):
+        return f'Animal(name="{self.name}")'
+
+class Storage:
+    def save_to_db(self, animal):
+        print(f'Saved {animal} to the database')
+
+# The storage class saves the information from an Animal instance to a database.
+# Adding new functionalities, such as saving to a CSV file, requires adding
+# code to the Storage class:
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    def __repr__(self):
+        return f'Animal(name="{self.name}")'
+
+class Storage:
+    def save_to_db(self, animal):
+        print(f'Saved {animal} to the database')
+    def save_to_csv(self, animal):
+        print(f'Saved {animal} to the CSV file.')
+
+# The save_to_csv method modifies an existing Storage class to add the
+# functionality. This approach violates the open-closed principle by changing
+# an existing element when a new functionality appears.
+
+# The code requries removing the genreal-purpose Storage class and creating
+# individual classess for storing in specific file formats.
+
+# The following code demonstrates the applicatoin of the open-closed principle:
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    def __repr__(self):
+        return f'Animal(name="{self.name}")'
+
+class DB():
+    def save_to_db(self, animal):
+        print(f'Saved {animal} to the database')
+
+class CSV():
+    def save_to_csv(self, animal):
+        print(f'Saved {animal} to the CSV file.')
+
+if __name__ == '__main__':
+    a = Animal('Cat')
+    db = DB()
+    csv = CSV()
+    db.save(a)
+    csv.save(a)

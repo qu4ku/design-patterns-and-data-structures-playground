@@ -1,0 +1,80 @@
+"""Liskov Substitution Principle
+Functions that use pointers or references to base classes must be able to use
+objects of derived classes without knowing it.
+
+The principle states that a parent class can substitute a child class without
+any noticable changes in functionality.
+"""
+
+# parent class
+class FileHandling():
+    def write_db(self):
+        return f'Handling DB'
+    def write_csv(self):
+        return f'Handling CSV'
+
+# child classes
+class WriteDB(FileHandling):
+    def write_db(self):
+        return f'Writing to a DB'
+    def write_csv(self):
+        return f"Error: cant't write to CSV, wrong file type."
+
+class WriteCSV(FileHandling):
+    def write_csv(self):
+        return f'Writing to a CSV file.'
+    def write_db(self):
+        return f"Error: can't write to DB, wrong file type."
+
+if __name__ == '__main__':
+    # parent class instantiation and function calls
+    db = FileHandling()
+    csv = FileHandling()
+    print(db.write_db())
+    print(db.write_csv())
+
+    # children classes instantiations and function call
+    db = WriteDB()
+    print(db.write_db())
+    print(db.write_csv())
+    print(csv.write_db())
+    print(csv.write_csv())
+
+# The paren class (FileHandling) consists of two methods for writing to a
+# database and a CSV file. The clas handles both functions and returns a
+# message.
+
+# The two child classes (WriteDB and WriteCSV) inherit properties from the
+# parent class (FileHandling). However, both children throw an error when
+# attempting to use the inappropriate write function, which violates the
+# Liskov Substitution principle since the overriding funcitons don't
+# correspond to the paren functions.
+
+# The following code resolves the issues:
+
+# paren class
+class FileHandling():
+    def write(self):
+        return f'Handling file.'
+
+# children classes
+class WriteDB(FileHandling):
+    def write(self):
+        return f'Writing to a DB.'
+
+class WriteCSV(FileHandling):
+    def write(self):
+        return f'Writing to a CSV file.'
+
+if __name__ == '__main__':
+    # parent class instantiation and functoin calls
+    db = FileHandling()
+    csv = FileHandling()
+    print(db.write())
+    print(csv.write())
+
+    # children classes instantiations and function call
+    db = WriteDB()
+    csv = WriteCSV()
+    print(db.write())
+    print(csv.write())
